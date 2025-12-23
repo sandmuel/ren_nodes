@@ -76,15 +76,12 @@ trait ProcessRegister {
 
 impl<T: NodeRef> ProcessRegister for T {
     // If T only meets the NodeRef trait bound, then do nothing.
-    default fn register(_: &mut World) {
-        println!("!process!!");
-    }
+    default fn register(_: &mut World) {}
 }
 
 impl<T: NodeRef<Instance<'static>: Process> + Process> ProcessRegister for T {
     // If T also meets the Process trait bound, then register it.
     fn register(world: &mut World) {
-        println!("process!!");
         world.register_trait::<T, dyn Process, _>(|x| Box::new(x));
     }
 }
