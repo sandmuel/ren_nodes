@@ -5,7 +5,7 @@ use std::ops::{Deref, DerefMut};
 
 /// Nodes with this trait have [`process`] called on them each frame.
 pub trait Process: NodeTrait {
-    fn process(&mut self);
+    fn process(&mut self, world: &World);
 }
 
 #[derive(Default, Debug)]
@@ -43,7 +43,7 @@ impl World {
     pub fn process_nodes(&self) {
         self.process_nodes.iter().for_each(|id| {
             let mut node = self.world.get_node_resilient::<dyn Process>(*id);
-            node.process();
+            node.process(self);
         })
     }
 }
